@@ -1,0 +1,48 @@
+<!--need to query the respective models, use plotly heatmap-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zetamatrix Heatmap</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="heatmap"></div>
+
+    <script type="text/javascript">
+        var data = [
+            {
+                z: {{ heatmap_data|safe }},
+                type: 'heatmap',
+                colorscale: 'Viridis',  // Change the color scale
+                hoverongaps: false, 
+            }
+        ];
+
+        var layout = {
+            title: 'Zetamatrix Addition Heatmap',  // Title of the heatmap
+            autosize: false,  // Disable autosize to use custom width and height
+            width: 1000,       // Set width
+            height: 1000,      // Set height to make the plot square
+            xaxis: {
+                // Your x-axis configuration...
+                title: 'Num 1',  // X-axis label
+                dtick: 1,         // Interval between ticks
+                scaleanchor: 'y',  // Ensures that scaling of x-axis is matched to y-axis
+                scaleratio: 1,     // Ensures a 1:1 aspect ratio
+            },
+            yaxis: {
+                title: 'Num 2',  // Y-axis label
+                dtick: 1         // Interval between ticks
+            }
+        };
+
+
+        Plotly.newPlot('heatmap', data, layout);
+    </script>
+</body>
+</html>
+
+current number of contributions: 
+current fastest:
+current slowest: 

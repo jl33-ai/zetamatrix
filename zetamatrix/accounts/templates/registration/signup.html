@@ -1,0 +1,27 @@
+{% block content %}
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Please don't forget your password. If you do, you have to email us.</p>
+    <button type="submit">Sign up</button>
+  </form>
+{% endblock %}
+
+<!--<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+        {{ form.username }}
+    </div>
+    <div>
+        <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+        {{ form.password1 }}
+    </div>
+    <div>
+        <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+        {{ form.password2 }}
+    </div>
+    <button type="submit">Sign up</button>
+</form>
+-->

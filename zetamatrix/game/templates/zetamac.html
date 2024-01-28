@@ -1,0 +1,31 @@
+<!-- game.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    {% csrf_token %}
+    <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
+    <title>Game</title>
+    {% load static %}
+    <script src="{% static 'js/game_logic.js' %}" defer></script>
+</head>
+<body>
+    <h1>Math Game</h1>
+    <div id="question"></div>
+    <input type="text" id="answer" autofocus>
+    <script>
+        const gameLength = {{ game_length }};
+        window.onload = function() {
+            startGame(gameLength);
+        };
+    </script>
+
+    <div id="gameResults" style="display:none;">
+        <h2>Game Over!</h2>
+        <p id="finalScore"></p>
+        <!-- Add more summary statistics as needed -->
+        <button onclick="startGame(gameLength)">Play Again</button>
+        <button onclick="window.location.href='/game/'">Home</button>
+    </div>
+
+</body>
+</html>
