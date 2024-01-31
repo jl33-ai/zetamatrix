@@ -1,124 +1,109 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Zetamatrix</title>
-    {% load static %}
-    <link href="https://db.onlinewebfonts.com/c/3b24b4e4737b288d2415b418b8c7aaef?family=CMU+Serif+Roman" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!--Do this for all .html-->
+{% extends "base.html" %}
+
+{% block title %}Home - Zetamatrix{% endblock title %}
+
+{% block extrastyle %}
+<style>
+    .narrow-table {
+        width: 40%; /* Adjust this value as needed */
+        margin: 0 auto; /* Center the table */
+    }
+</style>
+{% endblock extrastyle %}
+
+{% block content %}
+<div align="center">
+    <h1>Zetamatrix</h1>
+
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}, to ranked Zetamac. Good luck. </p>
     
-    
-    
-</head>
-<body>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-4">
+    <!-- Dropdown to start the game -->
+    <form action="{% url 'start_game' %}" method="post">
+        {% csrf_token %}
+        <select name="game_length">
+            <option value="120">120 seconds</option>
+            <option value="5">5 seconds (testing)</option>
+        </select>
+        <button type="submit">Start Game</button>
+    </form>
 
+    <form action="{% url 'start_dailychallenge' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Start Daily Game</button>
+    </form>
+    {% else %}
+        <!-- Display login/sign-up fields for non-authenticated users -->
+        <h2>Login</h2>
+        <p style="display: inline;">You must login to play, or</p> <a href="{% url 'signup' %}">sign up here</a>
+        <br>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <!-- Assuming you have a simple login form -->
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
 
-                <div class="box">
-                    <h1>Zetamatrix</h1>
-                
-                    {% if user.is_authenticated %}
-                    <p>Welcome, {{ user.username }}, to ranked Zetamac. Good luck. </p>
-                    
-                   
-                    
-                    <!-- Dropdown to start the game -->
-                    <form action="{% url 'start_game' %}" method="post">
-                        {% csrf_token %}
-                        <select name="game_length">
-                            <option value="120">120 seconds</option>
-                            <option value="5">5 seconds (testing)</option>
-                        </select>
-                        <button type="submit">Start Game</button>
-                    </form>
+    <br><br>
 
+    <hr>
 
-                {% else %}
-                    <!-- Display login/sign-up fields for non-authenticated users -->
-                    <h2>Login</h2>
-                    <p style="display: inline;">You must login to play, or</p> <a href="{% url 'signup' %}">sign up here</a>
-                    <br>
-                    <form method="post" action="{% url 'login' %}">
-                        {% csrf_token %}
-                        <!-- Assuming you have a simple login form -->
-                        <input type="text" name="username" placeholder="Username">
-                        <input type="password" name="password" placeholder="Password">
-                        <button type="submit">Login</button>
-                    </form>
-                {% endif %}
-                
-                
-                </div>
-            </div>
-
-
-
-            <div class="col-md-4">
-                <div class="box">
-                    <h1>Your profile</h1>
-                    <hr>
-                    {% if user.is_authenticated %}
-                        <ul>
-                            <li>Best score:</li>
-                            <li>Games played:</li>
-                        </ul>
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Logout</button>
-                        </form>
-                    
-                    {% else %}
-                        <form action="{% url 'login' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Login</button>
-                        </form>
-                    {% endif %}
-                    
-                        
-                        
-
-                </div>
-            </div>
-
-
-            <div class="col-md-4">
-                <div class="box">
-                    <h1>7-Day Leaderboard (120s)</h2>
-                    <hr>
-                    <ol>
-                        {% for score in top_scores %}
-                            <li>{{ score.user__username }} - {{ score.max_score }}</li>
-                        {% empty %}
-                            <li>No scores to display</li>
-                        {% endfor %}
-                    </ol>
-                </div>
-            </div>
-
-
+    <h3>7-Day Leaderboard (120s)</h3>
+    <table class="narrow-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in top_scores %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ score.user__username }}</td>
+                    <td>{{ score.max_score }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No scores to display</td>
+                </tr>
+            {% endfor %}
             
+        </tbody>
+    </table>
+    <br>
 
-            <div class="col-md-4">
-                <div class="box">
-                    <h1>Zetamatrix</h1>
-                    <a href="{% url 'see_addition' %}">View addition</a><br>
-                    <a href="{% url 'see_addition' %}">View subtraction</a><br>
-                    <a href="{% url 'see_addition' %}">View multiplication</a><br>
-                    <a href="{% url 'see_addition' %}">View division</a>
-                    <a href="{% url 'see_addition' %}">About</a>
-                </div>
-            </div>
+    <!--
+    <h3>Your profile</h3>
+    {% if user.is_authenticated %}
+        <ul>
+            <li>Best score:</li>
+            <li>Games played:</li>
+        </ul>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    
+    {% else %}
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
+    -->
 
-
-
-
-        </div>
+    <h3>View the Zetamatrix</h3>
+    <div>
+        <a href="{% url 'see_addition' %}">addition (+)</a><br>
+        <a href="{% url 'see_subtraction' %}">subtraction (-)</a><br>
+        <a href="{% url 'see_multiplication' %}">multiplication (*)</a><br>
+        <a href="{% url 'see_division' %}">division (/)</a>
+        <a href="{% url 'about_page' %}">About</a>
     </div>
-</body>
-
-
-
-</html>
+</div>
+{% endblock content %}

@@ -12,4 +12,4 @@ class PlayerStats(models.Model):
     games_played = models.IntegerField()
     questions_answered = models.IntegerField()
     has_world_record = models.BooleanField()
-
+    has_come_top_50_daily_challenge = models.BooleanField()

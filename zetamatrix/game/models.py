@@ -8,6 +8,7 @@ class GameSession(models.Model):
     start_time = models.DateTimeField(auto_now_add=True)
     score = models.IntegerField()
     length = models.IntegerField(help_text="Length of game in seconds")
+    is_dailychallenge = models.BooleanField(default=False)
 
 class SolvedAddition(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

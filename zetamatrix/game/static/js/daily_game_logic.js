@@ -1,34 +1,6 @@
 const { send } = require("express/lib/response");
 
-function generateQuestion() {
-    const opList = ['+', '-', '*', '/'];
-    const oper = opList[Math.floor(Math.random() * opList.length)];
-    let num1, num2;
-
-    if (oper === '+' || oper === '-') {
-        num1 = Math.floor(Math.random() * 99) + 2; // 2 to 100
-        num2 = Math.floor(Math.random() * 99) + 2; // 2 to 100
-    } else if (oper === '*') {
-        num1 = Math.floor(Math.random() * 11) + 2; // 2 to 12
-        num2 = Math.floor(Math.random() * 99) + 2; // 2 to 100
-    } else if (oper === '/') {
-        num2 = Math.floor(Math.random() * 11) + 2; // 2 to 12
-        num1 = num2 * (Math.floor(Math.random() * 99) + 2); // Ensure divisibility
-    }
-
-    return [num1, oper, num2];
-}
-
-function getNextDailyQuestion() {
-
-}
-
-function sendData(score, gameLength, questionsSolved, is_dailychallenge=false) {
-    /*
-    console.log(score)
-    console.log(gameLength)
-    console.log(questionsSolved)*/
-    
+function sendData(score, gameLength, questionsSolved, is_dailychallenge=true) {
     const csrfToken = document.getElementById('csrfToken').value;
     fetch('/game/save_game_data/', {
         method: 'POST',
@@ -47,13 +19,14 @@ function sendData(score, gameLength, questionsSolved, is_dailychallenge=false) {
     });
 }
 
-function startGame(gameLength) {
+function startGame(gameLength, questions) {
     let timeLeft = gameLength;
     let answerBox = document.getElementById('answer');
     let questionBox = document.getElementById('question');
     let solvedBox = document.getElementById('score');
     let score = 0;
     let questionsSolved = [];
+    let i = 0;
     
     // Hide the results panel at the start of every new game
     document.getElementById('gameResults').style.display='none';
@@ -78,7 +51,9 @@ function startGame(gameLength) {
 
     function askQuestion() {
         let lastTime = Date.now();
-        let [num1, oper, num2] = generateQuestion();
+        let { num1, oper, num2 } = questions[i];
+        i+=1;
+
         questionBox.innerText = `${num1} ${oper} ${num2}`;
 
         answerBox.value = '';
@@ -99,12 +74,14 @@ function startGame(gameLength) {
                 // need number of key strokes entered minus legth of answer. 
                 score = score + 1;
                 solvedBox.innerText = `Score: ${score}`;
+                console.log(num1, oper, num2, timeTaken);
                 questionsSolved.push({
                     num1: num1,
                     operator: oper,
                     num2: num2,
                     timeTaken: timeTaken
                 });
+
                 askQuestion();
             }
         };

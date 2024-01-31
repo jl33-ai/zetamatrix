@@ -4,7 +4,7 @@
     {% csrf_token %}
     <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
     {% load static %}
-    <script src="{% static 'js/game_logic.js' %}" defer></script>
+    <script src="{% static 'js/daily_game_logic.js' %}" defer></script>
     <style>
         body, html {
             width: 100%;
@@ -60,12 +60,19 @@
             margin: 10px;
             font-size: 1em;
         }
+
+        #daily_challenge_header {
+            text-align: center;
+            color: red;
+        }
+
     </style>
 {% endblock extrastyle %}
 
 {% block content %}
 <div id="timer">Seconds left: 0</div>
 <div id="score">Score: 0</div>
+<h3 id="daily_challenge_header">Daily Challenge</h3>
 <div id="question-container">
     <div id="question"></div><p>=</p><input type="text" id="answer" autofocus>
 </div>
@@ -80,8 +87,14 @@
 
 <script>
     const gameLength = {{ game_length }};
+</script>
+
+{{ questions|json_script:"questions-data" }}
+
+<script>
     window.onload = function() {
-        startGame(gameLength);
+        const questions = JSON.parse(document.getElementById('questions-data').textContent);
+        startGame(gameLength, questions);
     };
 </script>
 {% endblock content %}

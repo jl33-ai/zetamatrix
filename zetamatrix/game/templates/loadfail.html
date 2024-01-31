@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Zetamatrix{% endblock %}
+
+{% block extrastyle %}
+<style>
+    .error-heading {
+        color: red;
+    }
+    .centered-container {
+        width: 50%; /* Adjust the width as needed */
+        margin: 0 auto; /* This centers the div */
+        text-align: left; /* Ensures content inside the div is left-aligned */
+    }
+    .home-link {
+        text-align: right;
+        margin: 0 20%
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="centered-container">
+    <h1 class="error-heading">Sorry.</h1>
+    <p>The daily <strong>zetamac</strong> could not load because:</p>
+    <i>{{ reason }}</i>
+    <br><br>
+    <div class="home-link"><a href="/game/">Go back home</a></div>
+</div>
+{% endblock %}

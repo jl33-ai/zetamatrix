@@ -6,7 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Zetamatrix{% endblock title%}</title>
     <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
-    {% block extrastyle %}{% endblock extrastyle %}
+    
+    <style>
+        h1, h2, h3, h4, h5, h6, div {
+            text-align: center;
+        }
+    </style>
+    
+    {% block extrastyle %}
+    {% endblock extrastyle %}
     {% endblock head %}
 </head>
 <body>
