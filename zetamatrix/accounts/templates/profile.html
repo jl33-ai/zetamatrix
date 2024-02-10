@@ -1,13 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Your Profile</h1>
-    <div align="center">Here are your profile statistics:</div>
-    <a href="{% url 'home' %}">Go home</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Home - Zetamatrix{% endblock title %}
+
+{% block extrastyle %}
+<style>
+    .narrow-table {
+        width: 50%; /* Adjust this value as needed */
+        margin: 0 auto; /* Center the table */
+    }
+    .view-the-zetamatrix {
+        width: 30%; /* Adjust the width as needed */
+        margin: 0 auto; /* This centers the div */
+        text-align: left; /* Ensures content inside the div is left-aligned */
+    }
+</style>
+{% endblock extrastyle %}
+
+{% block content %}
+    
+    <div align="center">
+        <br><br>
+        <h3>Here are your profile statistics:</h3>
+    </div>
+    <br>
+    
+    <table class="narrow-table">
+        <tr>
+          <th>Games Played</th>
+          <th>Questions Completed</th>
+          <th>Has World Record</th>
+          <th>E(x)</th>
+          <th>Standard Deviation</th>
+        </tr>
+        <tr>
+          <td>{{ games_played }}</td>
+          <td>{{ questions_completed }}</td>
+          <td>{{ has_world_record }}</td>
+          <td>{{ e_of_x }}</td>
+          <td>{{ sd }}</td>
+        </tr>
+      </table>
+      <br>
+      
+    
+    <div align="center">
+        <a href="{% url 'home' %}">Go home</a>
+    </div>
+{% endblock %}

@@ -1,19 +1,27 @@
-<!-- yourapp/templates/registration/login.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <!-- Assuming you have a simple login form -->
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'signup' %}">Sign Up</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block extrastyle %}
+<style>
+  .form-container {
+    margin-left: auto; /* Keeps container left-aligned */
+    margin-right: auto; /* Ensures consistent spacing on the right */
+    padding: 0 20px; /* Adds padding inside the container on both left and right sides */
+    max-width: 600px; /* Maximum width of the container, adjust as needed */
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="form-container">
+    <fieldset>
+        <legend>Log in</legend>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <!-- Assuming you have a simple login form -->
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <button type="submit" class="btn btn-default">Login</button>
+        </form>
+        <a href="{% url 'signup' %}">Sign Up</a>
+    </fieldset>
+</div>
+{% endblock %}

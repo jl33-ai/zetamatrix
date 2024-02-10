@@ -14,16 +14,21 @@ from datetime import date
 
 # Create your views here.
 def home(request):
-
     # fetch leaderboard
     seven_days_ago = timezone.now()-timedelta(days=7)
     top_scores = GameSession.objects.filter(start_time__gte=seven_days_ago, is_dailychallenge=False)\
                                      .values('user__username')\
                                      .annotate(max_score=Max('score'))\
                                      .order_by('-max_score')[:10]  # Adjust the number as needed
+    
+    daily_challenge_scores = GameSession.objects.filter(start_time__gte=timezone.now(), is_dailychallenge=True)\
+                                     .values('user__username')\
+                                     .annotate(max_score=Max('score'))\
+                                     .order_by('-max_score')[:5]  # Adjust the number as needed
 
     context = {
         'top_scores': top_scores,
+        'dc_scores': daily_challenge_scores,
         'username' : request.user.username,
         }
 
@@ -35,13 +40,14 @@ def seematrix(request):
     context = {}
     return render(request, 'game/zetamatrix.html', context)
 
-
+def about_page(request):
+    return render(request, 'about.html')
 
 
 @login_required
 def start_game(request):
     if request.method == 'POST':
-        game_length = request.POST.get('game_length')
+        game_length = request.POST.get('game_length', '120')
         # Logic to initiate the game based on game_length
         return render(request, 'zetamac.html', {'game_length': game_length})
     else:
@@ -157,6 +163,8 @@ def save_game_data(request):
     except Exception as e:  # Consider more specific exception handling
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
+
+
 # ZETAMATRICES
 
 def see_addition(request):
@@ -166,11 +174,11 @@ def see_addition(request):
         .annotate(average_time=Avg('time_taken')) \
         .order_by('num1', 'num2')
     
-    heatmap_data = [[0]*99 for _ in range(99)]
+    heatmap_data = [[0]*101 for _ in range(101)]
     i=2
     for row in data:
         if row['num1']==i:
-            heatmap_data[i-2][row['num2']-2]=np.log(min(10000, row['average_time']))
+            heatmap_data[i][row['num2']]=np.log(min(10000, row['average_time']))
         else:
             i+=1
 
@@ -179,6 +187,30 @@ def see_addition(request):
         'num_contributions': SolvedAddition.objects.count(),
         })
 
+def see_subtraction(request):
+    # As DJango ORM query
+    data = SolvedSubtraction.objects \
+        .values('num1', 'num2') \
+        .annotate(average_time=Avg('time_taken')) \
+        .order_by('num1', 'num2')
+    
+    heatmap_data = [[0]*101 for _ in range(101)]
+    i=2
+    for row in data:
+        if row['num1']==i:
+            heatmap_data[i][row['num2']]=np.log(min(10000, row['average_time']))
+        else:
+            i+=1
+
+    return render(request, 'matrices/addition_zetamatrix.html', {
+        'heatmap_data': json.dumps(heatmap_data), 
+        'num_contributions': SolvedSubtraction.objects.count(),
+        })
+
+def see_division(request):
+    # As DJango ORM query
+    return render(request, 'home.html')
+
 def see_multiplication(request):
     # As DJango ORM query
     data = SolvedMultiplication.objects \
@@ -186,11 +218,11 @@ def see_multiplication(request):
         .annotate(average_time=Avg('time_taken')) \
         .order_by('num1', 'num2')
     
-    heatmap_data = [[0]*99 for _ in range(11)]
+    heatmap_data = [[0]*101 for _ in range(11+2)]
     i=2
     for row in data:
         if row['num1']==i:
-            heatmap_data[i-2][row['num2']-2]=np.log(min(10000, row['average_time']))
+            heatmap_data[i][row['num2']]=np.log(min(10000, row['average_time']))
         else:
             i+=1
 

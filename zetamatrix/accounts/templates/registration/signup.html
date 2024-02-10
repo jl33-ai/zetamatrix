@@ -1,27 +1,26 @@
-{% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <p>Please don't forget your password. If you do, you have to email us.</p>
-    <button type="submit">Sign up</button>
-  </form>
-{% endblock %}
+{% extends "base.html" %}
+{% block extrastyle %}
+<style>
+  .form-container {
+    margin-left: auto; /* Keeps container left-aligned */
+    margin-right: auto; /* Ensures consistent spacing on the right */
+    padding: 0 20px; /* Adds padding inside the container on both left and right sides */
+    max-width: 600px; /* Maximum width of the container, adjust as needed */
+}
 
-<!--<form method="post">
-    {% csrf_token %}
-    <div>
-        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-        {{ form.username }}
-    </div>
-    <div>
-        <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
-        {{ form.password1 }}
-    </div>
-    <div>
-        <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
-        {{ form.password2 }}
-    </div>
-    <button type="submit">Sign up</button>
-</form>
--->
+</style>
+{% endblock %}
+{% block content %}
+<div class="form-container">
+  <fieldset>
+    <legend>Sign up</legend>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <p>Please don't forget your password. If you do, you have to email us.</p>
+      <button type="submit" class="btn btn-default">Sign up</button>
+    </form>
+  </fieldset>
+</div>
+{% endblock %}

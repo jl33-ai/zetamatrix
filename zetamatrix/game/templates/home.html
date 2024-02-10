@@ -1,50 +1,82 @@
-<!--Do this for all .html-->
+<!--CLEANER-->
 {% extends "base.html" %}
 
 {% block title %}Home - Zetamatrix{% endblock title %}
 
 {% block extrastyle %}
 <style>
+    
     .narrow-table {
-        width: 40%; /* Adjust this value as needed */
+        width: 30%; /* Adjust this value as needed */
         margin: 0 auto; /* Center the table */
     }
+    .view-the-zetamatrix {
+        width: 30%; /* Adjust the width as needed */
+        margin: 0 auto; /* This centers the div */
+        text-align: left; /* Ensures content inside the div is left-aligned */
+    }
+    .flex-center {
+        display: flex;
+        justify-content: center; /* Horizontally center the content */
+        align-items: center; /* Vertically center the content (if needed) */
+        height: 10vh; /* Take up the full height of the viewport, adjust as necessary */
+    }
+    .zetamatrix-container {
+        display: flex;
+        align-items: center; /* This will vertically center the image with the text if the image is taller than the text block */
+    }
+
+    .zetamatrix-image {
+        margin-right: 10px; /* Add some space between the image and the links */
+        width: 50%;
+    }
+
+    .view-the-zetamatrix h3 {
+        margin-top: 0; /* Remove the top margin from the heading if desired */
+        text-align: left; /* Align the heading to the left */
+    }
+
+    .view-the-zetamatrix a {
+        display: block; /* Optional: Make each link fill the available horizontal space within the container */
+    }
+
+
 </style>
 {% endblock extrastyle %}
 
 {% block content %}
 <div align="center">
-    <h1>Zetamatrix</h1>
-
+    <div class="flex-center">
+        <h1 class="terminal-prompt">Zetamatrix</h1>
+    </div>
+    
     {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}, to ranked Zetamac. Good luck. </p>
     
     <!-- Dropdown to start the game -->
     <form action="{% url 'start_game' %}" method="post">
         {% csrf_token %}
-        <select name="game_length">
+        <!--<select name="game_length">
             <option value="120">120 seconds</option>
             <option value="5">5 seconds (testing)</option>
-        </select>
-        <button type="submit">Start Game</button>
+        </select>-->
+        <button type="submit" class="btn btn-default">start game</button>
     </form>
-
-    <form action="{% url 'start_dailychallenge' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Start Daily Game</button>
-    </form>
+    
     {% else %}
         <!-- Display login/sign-up fields for non-authenticated users -->
         <h2>Login</h2>
         <p style="display: inline;">You must login to play, or</p> <a href="{% url 'signup' %}">sign up here</a>
         <br>
-        <form method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <!-- Assuming you have a simple login form -->
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="password" placeholder="Password">
-            <button type="submit">Login</button>
-        </form>
+        <div class="view-the-zetamatrix">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <!-- Assuming you have a simple login form -->
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit" class="btn btn-default">Login</button>
+            </form>
+        </div>
     {% endif %}
 
     <br><br>
@@ -75,7 +107,31 @@
             
         </tbody>
     </table>
+
+    <hr>
+
+    <h3>daily challenge</h3>
     <br>
+    <form id="dailyChallengeForm" action="{% url 'start_dailychallenge' %}" method="post">
+        {% csrf_token %}
+        <button type="button" onclick="confirmStart()" class="btn btn-primary btn-ghost">attempt now</button>
+    </form>
+    <br>
+    <p><b>Current top scores: </b></p>
+    {% for score in daily_challenge_scores %}
+        <p>{{ score.user__username }} ({{ score.max_score }}), </p>
+    {% empty %}
+        <p>no attempts yet</p>
+    {% endfor %}
+
+    <script>
+    function confirmStart() {
+        var result = confirm("You only get one attempt per day. Are you sure you want to start?");
+        if (result) {
+            document.getElementById("dailyChallengeForm").submit();
+        }
+    }
+    </script>
 
     <!--
     <h3>Your profile</h3>
@@ -84,10 +140,7 @@
             <li>Best score:</li>
             <li>Games played:</li>
         </ul>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
+        
     
     {% else %}
         <form action="{% url 'login' %}" method="post">
@@ -96,14 +149,38 @@
         </form>
     {% endif %}
     -->
-
-    <h3>View the Zetamatrix</h3>
-    <div>
-        <a href="{% url 'see_addition' %}">addition (+)</a><br>
-        <a href="{% url 'see_subtraction' %}">subtraction (-)</a><br>
-        <a href="{% url 'see_multiplication' %}">multiplication (*)</a><br>
-        <a href="{% url 'see_division' %}">division (/)</a>
-        <a href="{% url 'about_page' %}">About</a>
+    {% load static %}
+    <hr>
+    <div class="zetamatrix-container">
+        <div class="zetamatrix-image">
+            <img src="{% static 'images/zm-blur.jpg' %}" alt="Zetamatrix Image">
+        </div>
+        <div class="view-the-zetamatrix">
+            <h3>View the Zetamatrix</h3>
+            <a href="{% url 'see_addition' %}">(+) addition</a><br>
+            <a href="{% url 'see_subtraction' %}">(-) subtraction</a><br>
+            <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
+        </div>
     </div>
+    
+
+    
+
+    <hr>
+    <div class="flex-center">
+        <div class="btn-group">
+            <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">about</a>
+            <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">your stats</a>
+            <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">sign up</a>
+        </div>
+        
+    </div>
+    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-error">logout</button>
+    </form>
+    <br><br>
+    
 </div>
+
 {% endblock content %}

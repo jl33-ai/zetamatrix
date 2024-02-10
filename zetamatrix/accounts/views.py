@@ -2,7 +2,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import redirect, render, HttpResponse
-
+from .models import PlayerStats
+from game.models import GameSession
+from django.db.models import Avg, StdDev
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -13,4 +15,24 @@ class LogoutView(generic.CreateView):
     template_name = 'registration/logout.html'
 
 def profile(request):
-    return render(request, 'profile.html')
+    player_stats, created = PlayerStats.objects.get_or_create(
+        user=request.user,
+        defaults={
+            'games_played': 0,
+            'questions_answered': 0,
+            'has_world_record': False,
+            'has_come_top_50_daily_challenge': False
+        }
+    )
+    game_sessions_stats = GameSession.objects.filter(user=request.user, length=120)\
+                                         .aggregate(e_of_x=Avg('score'), sd=StdDev('score'))
+
+    payload = {
+        'games_played': player_stats.games_played,
+        'questions_completed': player_stats.questions_answered,
+        'has_world_record': player_stats.has_world_record,
+        'e_of_x': game_sessions_stats['e_of_x'] if game_sessions_stats['e_of_x'] is not None else 0,
+        'sd': round(game_sessions_stats['sd'], 1) if game_sessions_stats['sd'] is not None else 0,
+    }
+
+    return render(request, 'profile.html', context=payload)
