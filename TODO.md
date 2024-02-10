@@ -4,6 +4,15 @@
 
 ### To do before deployment (urgent)
 
+1. refine profile section to show all of your games 
+2. fix scaling of zm's 
+3. make the video 'PLAY ZETAMATRIX' with black background thumbnail and then the heatmap array
+
+
+
+
+
+
 - [ ] join zetamatrix (the video)
 - [ ] add the log and total contributions to all 4 zetamatrices 
 - [ ] See whether it works. 
@@ -55,4 +64,4 @@
 
 - Watch 'contribute to the Zetamatrix' 
     - Miniscule 'company name' 
-    
+    - [ ] Go crazy: https://terminalcss.xyz/#DocVariables

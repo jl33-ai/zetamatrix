@@ -1,8 +1,2 @@
-env/
-venv/
-.venv/
-__pycache__/
-*.pyc
+zeta-env
 .env
-
-TODO.md
