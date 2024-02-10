@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -32,15 +33,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*', 'https://pricey-example-production.up.railway.app/accounts/signup/']
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["DB_NAME"],
-        "USER": os.environ["DB_USER"],
-        "PASSWORD": os.environ["DB_PASSWORD"],
-        "HOST": os.environ["DB_HOST"],
-        "PORT": os.environ["DB_PORT"], 
-    }
+DATABASES={
+"default":dj_database_url.config(default=os.environ.get("DATABASE_URL"),conn_max_age=1800),
 }
 
 
@@ -130,6 +124,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"), 
 ]
 STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
+
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
