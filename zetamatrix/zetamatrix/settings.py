@@ -38,6 +38,7 @@ DATABASES={
 }
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,6 +61,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://zetamatrix-production.up.railway.app/']
 
 ROOT_URLCONF = "zetamatrix.urls"
 
