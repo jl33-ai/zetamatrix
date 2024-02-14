@@ -62,7 +62,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://zetamatrix-production.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://zetamatrix-production.up.railway.app']
 
 ROOT_URLCONF = "zetamatrix.urls"
 
