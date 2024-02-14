@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts",
     "game",
+    'whitenoise.runserver_nostatic',    
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://zetamatrix-production.up.railway.app']
@@ -127,6 +129,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"), 
 ]
 STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
