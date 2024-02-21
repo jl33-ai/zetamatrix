@@ -3,6 +3,7 @@
 {% block title %}Home - Zetamatrix{% endblock title %}
 
 {% block extrastyle %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <style>
     .narrow-table {
         width: 50%; /* Adjust this value as needed */
@@ -13,15 +14,19 @@
         margin: 0 auto; /* This centers the div */
         text-align: left; /* Ensures content inside the div is left-aligned */
     }
+    .content-container {
+        width: 60%; /* Adjust the width as needed */
+        margin: auto; /* Centers the div horizontally */
+        padding: 20px; /* Adds some spacing inside the div */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for better aesthetics */
+    }
 </style>
 {% endblock extrastyle %}
 
 {% block content %}
-    
-    <div align="center">
+<div class="content-container">
         <br><br>
         <h3>Here are your profile statistics:</h3>
-    </div>
     <br>
     
     <table class="narrow-table">
@@ -41,9 +46,42 @@
         </tr>
       </table>
       <br>
-      
     
+    <div id="scatter"></div>
+
+    <div id="myDiv"></div>
+
     <div align="center">
         <a href="{% url 'home' %}">Go home</a>
     </div>
+</div>
+    <script type="text/javascript">
+        var e_of_x = {{ e_of_x|safe }};
+        var variance = Math.pow({{ sd|safe }}, 2);
+    
+        var x = [];
+        var y = [];
+        for (var i = e_of_x - 4 * Math.sqrt(variance); i < e_of_x + 4 * Math.sqrt(variance); i += 0.1) {
+            var yValue = (1 / (Math.sqrt(2 * Math.PI * variance))) * Math.exp(-Math.pow(i - e_of_x, 2) / (2 * variance));
+            x.push(i);
+            y.push(yValue);
+        }
+    
+        var data = [{
+            x: x, // Use the calculated x values
+            y: y, // Use the calculated y values
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Normal Distribution'
+        }];
+    
+        var layout = {
+            xaxis: {
+                title: 'score per game'
+            },
+        };
+    
+        // Make sure the element ID here matches the ID of the element in your HTML where you want to display the plot
+        Plotly.newPlot('scatter', data, layout);
+    </script>
 {% endblock %}

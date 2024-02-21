@@ -1,32 +1,83 @@
-See the Zetamatrix official launch video: 
+{% extends "base.html" %}
+
+{% block title %}Tips, Tricks and About{% endblock title %}
+
+{% block extrastyle %}
+<style>
+    .content-container {
+        width: 60%; /* Adjust the width as needed */
+        margin: auto; /* Centers the div horizontally */
+        padding: 20px; /* Adds some spacing inside the div */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for better aesthetics */
+    }
+</style>
+{% endblock extrastyle %}
 
 
-Certainly! Mental arithmetic tricks can simplify calculations and make math faster and more enjoyable. Here are some tips and tricks for multiplication, division, addition, and subtraction:
+{% block content %}
+<div class="content-container">
+    <br>
+    <header><h2 id="Timeline">tips & tricks</h2></header>
+    <div class="terminal-timeline">
+        <div class="terminal-card">
+            <header>(*) multiplication</header>
+            <div>
+                multiplying by 5 = multiplying by 10 / 2
+                <pre>24 * 5 = (24 * 10) / 2 = 240 / 2 = 120</pre><br>
+                distribute! turn it into an easier question...
+                <pre>65 * 14 = 130 * 7</pre>
+            </div>
+        </div>
+        <div class="terminal-card">
+            <header>(/) division</header>
+            <div>
+                division by 11: the first and final digit dictate the first and final digit of the quotient (most of the time)
+                <pre>572 / 11 = 52</pre>
+            </div>
+        </div>
+        <div class="terminal-card">
+            <header>(+) addition</header>
+            <div>
+                Nothing to say here... just add them together. 
+            </div>
+        </div>
+        <div class="terminal-card">
+            <header>(-) subtraction</header>
+            <div>
+                breaking apart numbers 
+                <pre>91 - 46 = (91 - 40) - 6</pre>
 
-### Multiplication
-1. **Multiplying by 5**: Multiply by 10 and then divide by 2. For example, 24 * 5 = (24 * 10) / 2 = 240 / 2 = 120.
-2. **Multiplying large numbers close to 100**: Subtract each number from 100 and cross subtract to get the difference, which forms the latter part of the answer, and multiply the differences for the first part. For example, 96 * 97, where 100 - 96 = 4 and 100 - 97 = 3, then 96 - 3 = 97 - 4 = 93 for the first part and 4 * 3 = 12 for the second part, making the answer 9312.
-3. **Squaring numbers ending in 5**: For a number ending in 5, multiply the leading digit(s) by the next higher number and append 25. For example, 25^2 = (2 * (2+1)) & 25 = 625.
+            </div>
+        </div>
+    </div>
 
-### Division
-1. **Dividing by 5**: Multiply by 2 and divide by 10. For example, 250 / 5 = (250 * 2) / 10 = 500 / 10 = 50.
-2. **Dividing by 11**: As mentioned, for certain numbers, if the sum of the alternate digits is equal, the number is divisible by 11. For example, with 253, 2 + 3 = 5, which matches the middle digit, so 253 / 11 = 23.
-3. **Approximate division for large numbers**: Round the divisor and dividend to close, easy numbers, perform the division, then adjust. For example, to divide 432 by 12, consider 12 as 10 for an initial estimate, so 432 / 10 = 43.2, then adjust for the difference between 10 and 12.
+    <hr>
 
-### Addition
-1. **Rounding and adjusting**: Round numbers to the nearest ten, hundred, etc., add those, and then adjust. For example, for 398 + 67, round 398 to 400 and 67 to 70, add to get 470, and subtract the adjustments (2 + 3) to get 465.
-2. **Left-to-right addition**: Instead of adding from right to left, add the largest place values first. For example, with 756 + 899, start with 700 + 800 = 1500, then add 50 + 90 = 140, and finally 6 + 9 = 15, summing up to 1655.
+    <h2>about zetamatrix</h2>
 
-### Subtraction
-1. **Complement method**: Subtract from the next whole number multiple and adjust. For example, for 1000 - 537, consider 1000 - 537 as 1000 - 500 = 500, then subtract the rest (37) to get 463.
-2. **Breaking apart numbers**: Break the number you're subtracting into parts that are easy to subtract from the other number. For example, to subtract 46 from 91, you could subtract 40 first to get 51, then subtract 6 to get 45.
+    It is an online competitive math platform with the secret ulterior motive of being a <b>large scale</b> data collection initiative.
+    By collecting high frequency, high volume data on the way people solve mental arithmetic, we aim to <i>fully</i> understand the way humans solve the most fundamental type of math. 
 
-These tricks can often make mental arithmetic quicker and reduce the reliance on calculators for simple calculations. Practice can help you become more comfortable and efficient with these methods.
+    <br>
 
+    Zetamatrix official launch video:
 
-Coming features: 
-- 24
-- monte carlo's mansion
-- game length control (was previously a feature but unstable)
+    <h3>This project is backed by</h3>
 
-Please submit any found issues to this form: 
+    <br>
+
+    <h3>incoming features</h3>
+    - 24
+    - monte carlo's mansion
+    - game length control (was previously a feature but unstable)
+
+    <br>
+
+    <h3>issues</h3>
+
+    Please submit any found issues to this form: 
+    <br>
+    <br>
+    <a href="/game/">Home</a>
+</div>
+{% endblock content %}

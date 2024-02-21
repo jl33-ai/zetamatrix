@@ -157,27 +157,27 @@
         </div>
         <div class="view-the-zetamatrix">
             <h3>View the Zetamatrix</h3>
+            
+            
             <a href="{% url 'see_addition' %}">(+) addition</a><br>
             <a href="{% url 'see_subtraction' %}">(-) subtraction</a><br>
             <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
+            <pre>Current global contributors: {{ num_total_users }}</pre>
         </div>
-    </div>
-    
-
-    
+    </div>    
 
     <hr>
-    <div class="flex-center">
-        <div class="btn-group">
-            <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">about</a>
-            <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">your stats</a>
-            <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">sign up</a>
-        </div>
-        
+    <div>
+        <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">♕ about</a>
+        <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">⚄ see your stats</a>
+        <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">✎ sign up</a>
     </div>
+
+    <br>
+        
     <form action="{% url 'logout' %}" method="post" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" class="btn btn-error">logout</button>
+        <button type="submit" class="btn btn-error">☇ logout</button>
     </form>
     <br><br>
     

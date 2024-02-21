@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from game.models import SolvedAddition, SolvedDivision, SolvedSubtraction, SolvedMultiplication
-from django.http import JsonResponse
 import pandas as pd
 from django.contrib.auth.models import User
 
@@ -10,6 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             data = pd.read_csv('/Users/justinlee/Documents/projport/zetamatrix/zetamatrix/game/management/commands/all_data.csv')
+            data = data[10:]
             user = User.objects.get(username='justinlee')
 
             # Mapping operators to models
@@ -30,10 +30,8 @@ class Command(BaseCommand):
                         time_taken=int(1000*question['timetaken'])
                     )
 
-            return JsonResponse({'status': 'success'})
+            self.stdout.write(self.style.SUCCESS('Successfully backfilled data'))
         except User.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f'User "{user}" does not exist'))
+            self.stdout.write(self.style.ERROR(f'User "justinlee" does not exist'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Error: {str(e)}'))
-
-        self.stdout.write(self.style.SUCCESS('Successfully backfilled data'))

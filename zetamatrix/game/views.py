@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import GameSession, DailyChallenge, SolvedAddition, SolvedSubtraction, SolvedMultiplication, SolvedDivision
@@ -25,11 +26,14 @@ def home(request):
                                      .values('user__username')\
                                      .annotate(max_score=Max('score'))\
                                      .order_by('-max_score')[:5]  # Adjust the number as needed
+    
+    num_total_users = User.objects.count()
 
     context = {
         'top_scores': top_scores,
         'dc_scores': daily_challenge_scores,
         'username' : request.user.username,
+        'num_total_users' : 42+int(num_total_users)
         }
 
     if request.user.is_authenticated: 

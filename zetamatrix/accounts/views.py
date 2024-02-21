@@ -27,12 +27,15 @@ def profile(request):
     game_sessions_stats = GameSession.objects.filter(user=request.user, length=120)\
                                          .aggregate(e_of_x=Avg('score'), sd=StdDev('score'))
 
+    all_games = {}
+
     payload = {
         'games_played': player_stats.games_played,
         'questions_completed': player_stats.questions_answered,
         'has_world_record': player_stats.has_world_record,
         'e_of_x': game_sessions_stats['e_of_x'] if game_sessions_stats['e_of_x'] is not None else 0,
         'sd': round(game_sessions_stats['sd'], 1) if game_sessions_stats['sd'] is not None else 0,
+        'all_games' : all_games
     }
 
     return render(request, 'profile.html', context=payload)
