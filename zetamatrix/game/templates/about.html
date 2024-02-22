@@ -8,8 +8,30 @@
         width: 60%; /* Adjust the width as needed */
         margin: auto; /* Centers the div horizontally */
         padding: 20px; /* Adds some spacing inside the div */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for better aesthetics */
     }
+    #scoreTiers ul {
+        list-style-type: none;
+        padding: 0;
+        width: 35%;
+        margin: auto;
+    }
+
+    #scoreTiers li {
+        padding: 5px;
+        color: #FFF; /* Default text color set to white for better contrast on darker backgrounds */
+    }
+
+    .red { background-color: #FF0000; }
+    .orange { background-color: #FF7F00; color: #000; /* Text color changed for better readability */ }
+    .yellow { background-color: #FFFF00; color: #000; }
+    .green { background-color: #00FF00; color: #000; }
+    .blue { background-color: #0000FF; }
+    .indigo { background-color: #4B0082; }
+    .violet { background-color: #9400D3; }
+    .lightgrey { background-color: #D3D3D3; color: #000; }
+    .darkgrey { background-color: #A9A9A9; }
+    .grey { background-color: #808080; }
+    .slategrey { background-color: #778899; }
 </style>
 {% endblock extrastyle %}
 
@@ -53,31 +75,40 @@
 
     <hr>
 
-    <h2>about zetamatrix</h2>
+    <div style="margin-left: 20px;">
+        <h2>About Zetamatrix</h2>
+        <p>It is an online competitive math platform inspired by the original <a href="https://arithmetic.zetamac.com">zetamac</a> with the secret ulterior motive of being a <strong>large scale</strong> data collection initiative. <br><br>By collecting high frequency, high volume data on the way people solve mental arithmetic, we aim to <em>fully</em> understand the way humans solve the most fundamental type of math.</p>
+    
+        <p>Zetamatrix official launch video:</p>
+        <!-- Embed or link to the launch video here -->
 
-    It is an online competitive math platform with the secret ulterior motive of being a <b>large scale</b> data collection initiative.
-    By collecting high frequency, high volume data on the way people solve mental arithmetic, we aim to <i>fully</i> understand the way humans solve the most fundamental type of math. 
+    
+        <h3>Issues</h3>
+        <p>Please submit any found issues to this form:</p>
+        <!-- Link to the form or embed form here -->
+    
+        <p><a href="/game/">Home</a></p>
+    </div>    
 
-    <br>
+    <hr>
 
-    Zetamatrix official launch video:
-
-    <h3>This project is backed by</h3>
-
-    <br>
-
-    <h3>incoming features</h3>
-    - 24
-    - monte carlo's mansion
-    - game length control (was previously a feature but unstable)
-
-    <br>
-
-    <h3>issues</h3>
-
-    Please submit any found issues to this form: 
-    <br>
-    <br>
-    <a href="/game/">Home</a>
+    
+    <div id="scoreTiers">
+        <h2>tiers</h2>
+        <ul>
+            <li class="red">rookie ⛄︎</li>
+            <li class="orange">novice ♙</li>
+            <li class="yellow">competent ♘</li>
+            <li class="green">skilled ♗</li>
+            <li class="blue">proficient ♖</li>
+            <li class="indigo">expert ♕</li>
+            <li class="violet">senior ♔</li>
+            <li class="lightgrey">master ⚚</li>
+            <li class="darkgrey">grandmaster ☬</li>
+            <li class="grey">champion ⚘</li>
+            <li class="slategrey">god 🀙</li>
+        </ul>
+    </div>
+    
 </div>
 {% endblock content %}

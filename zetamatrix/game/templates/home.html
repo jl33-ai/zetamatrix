@@ -27,7 +27,7 @@
     }
 
     .zetamatrix-image {
-        margin-right: 10px; /* Add some space between the image and the links */
+        margin-right: 2.5px; /* Add some space between the image and the links */
         width: 50%;
     }
 
@@ -51,7 +51,7 @@
     </div>
     
     {% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }}, to ranked Zetamac. Good luck. </p>
+    <p>Welcome, {{ user.username }}, to <strong>ranked Zetamac.</strong></p>
     
     <!-- Dropdown to start the game -->
     <form action="{% url 'start_game' %}" method="post">
@@ -118,7 +118,7 @@
     </form>
     <br>
     <p><b>Current top scores: </b></p>
-    {% for score in daily_challenge_scores %}
+    {% for score in dc_scores %}
         <p>{{ score.user__username }} ({{ score.max_score }}), </p>
     {% empty %}
         <p>no attempts yet</p>
@@ -177,7 +177,7 @@
         
     <form action="{% url 'logout' %}" method="post" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" class="btn btn-error">☇ logout</button>
+        <button type="submit" class="btn btn-error">logout</button>
     </form>
     <br><br>
     

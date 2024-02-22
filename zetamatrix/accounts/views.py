@@ -4,7 +4,9 @@ from django.views import generic
 from django.shortcuts import redirect, render, HttpResponse
 from .models import PlayerStats
 from game.models import GameSession
-from django.db.models import Avg, StdDev
+from django.db.models import Avg, StdDev, Func, F
+from django.db.models.functions import TruncDay
+
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -27,15 +29,20 @@ def profile(request):
     game_sessions_stats = GameSession.objects.filter(user=request.user, length=120)\
                                          .aggregate(e_of_x=Avg('score'), sd=StdDev('score'))
 
-    all_games = {}
-
+    game_session_data = GameSession.objects.filter(user=request.user, length=120)\
+                                        .annotate(date=TruncDay('start_time'))\
+                                        .values('date')\
+                                        .annotate(average_score=Avg('score'))\
+                                        .order_by('date')
+    
     payload = {
         'games_played': player_stats.games_played,
         'questions_completed': player_stats.questions_answered,
         'has_world_record': player_stats.has_world_record,
-        'e_of_x': game_sessions_stats['e_of_x'] if game_sessions_stats['e_of_x'] is not None else 0,
+        'e_of_x': round(game_sessions_stats['e_of_x'], 1) if game_sessions_stats['e_of_x'] is not None else 0,
         'sd': round(game_sessions_stats['sd'], 1) if game_sessions_stats['sd'] is not None else 0,
-        'all_games' : all_games
+        'x_progress_data' : [item['date'].isoformat() for item in game_session_data],
+        'y_progress_data' : [item['average_score'] for item in game_session_data]
     }
 
     return render(request, 'profile.html', context=payload)

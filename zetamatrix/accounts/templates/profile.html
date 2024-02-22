@@ -18,47 +18,183 @@
         width: 60%; /* Adjust the width as needed */
         margin: auto; /* Centers the div horizontally */
         padding: 20px; /* Adds some spacing inside the div */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for better aesthetics */
     }
+    #scoreBox {
+        width: 250px;
+        margin: auto;
+        padding: 2.5px;
+        box-shadow: 0 8px 8px rgba(0,0,0,0.25); 
+    }
+
 </style>
 {% endblock extrastyle %}
 
 {% block content %}
 <div class="content-container">
         <br><br>
-        <h3>Here are your profile statistics:</h3>
+        <h3>profile statistics:</h3>
+    <br>
+
+    <div id="scoreBox">
+        <strong><span id="scoreStatus">unknown</span></strong>
+    </div>
+
     <br>
     
     <table class="narrow-table">
         <tr>
           <th>Games Played</th>
           <th>Questions Completed</th>
-          <th>Has World Record</th>
+          
           <th>E(x)</th>
-          <th>Standard Deviation</th>
+          <th>sd σ</th>
         </tr>
         <tr>
           <td>{{ games_played }}</td>
           <td>{{ questions_completed }}</td>
-          <td>{{ has_world_record }}</td>
+          
           <td>{{ e_of_x }}</td>
           <td>{{ sd }}</td>
         </tr>
       </table>
       <br>
-    
-    <div id="scatter"></div>
 
-    <div id="myDiv"></div>
+
 
     <div align="center">
         <a href="{% url 'home' %}">Go home</a>
     </div>
+
+    <hr>
+    
+    <div id="timeProgress"></div>
+    <div id="gaugePlot" style="width: 50%; float: left;"></div>
+    <div id="scatterPlot" style="width: 50%; float: left;"></div>   
 </div>
-    <script type="text/javascript">
+    <script>
+        console.log({{ y_progress_data|safe }});
+        var trace1 = {
+            type: "scatter",
+            mode: "lines",
+            name: 'Progress',
+            x: {{ x_progress_data|safe }},
+            y: {{ y_progress_data|safe }},
+            line: {color: 'red'}
+        };  
+
+        var data = [trace1];    
+
+        var layout = {
+        title: 'progress',
+        font: {
+            family: '"Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", serif'
+        },
+        xaxis: {
+            autorange: true,
+            rangeselector: {
+                buttons: [
+                    {
+                        count: 1,
+                        label: '1m',
+                        step: 'month',
+                        stepmode: 'backward'
+                    },
+                    {
+                        count: 6,
+                        label: '6m',
+                        step: 'month',
+                        stepmode: 'backward'
+                    },
+                    {step: 'all'}
+                    ]},
+                rangeslider: {range: ['2015-02-17', '2017-02-16']},
+                type: 'date'
+            },
+            yaxis: {
+            autorange: true,
+            range: [0, 100],
+            type: 'linear'
+            }
+        };
+
+        Plotly.newPlot('timeProgress', data, layout);
+    </script>
+
+    <script>
+        var score = {{ e_of_x }}; 
+        var scoreBox = document.getElementById('scoreBox');
+        var scoreValue = document.getElementById('scoreValue');
+        var scoreStatus = document.getElementById('scoreStatus');
+
+        if (score < 10) {
+            scoreStatus.textContent = 'rookie ⛄︎'; 
+            scoreBox.style.backgroundColor = '#FF0000'; // Red
+        } else if (score < 20) {
+            scoreStatus.textContent = 'novice ♙';
+            scoreBox.style.backgroundColor = '#FF7F00'; // Orange
+        } else if (score < 30) {
+            scoreStatus.textContent = 'competent ♘';
+            scoreBox.style.backgroundColor = '#FFFF00'; // Yellow
+        } else if (score < 40) {
+            scoreStatus.textContent = 'skilled ♗';
+            scoreBox.style.backgroundColor = '#00FF00'; // Green
+        } else if (score < 50) {
+            scoreStatus.textContent = 'proficient ♖';
+            scoreBox.style.backgroundColor = '#0000FF'; // Blue
+        } else if (score < 60) {
+            scoreStatus.textContent = 'expert ♕';
+            scoreBox.style.backgroundColor = '#4B0082'; // Indigo
+        } else if (score < 70) {
+            scoreStatus.textContent = 'senior ♔';
+            scoreBox.style.backgroundColor = '#9400D3'; // Violet
+        } else if (score < 80) {
+            scoreStatus.textContent = 'master ⚚';
+            scoreBox.style.backgroundColor = '#D3D3D3'; // Light Grey, continuing the pattern
+        } else if (score < 90) {
+            scoreStatus.textContent = 'grandmaster ☬';
+            scoreBox.style.backgroundColor = '#A9A9A9'; // Dark Grey
+        } else if (score < 100) {
+            scoreStatus.textContent = 'champion ⚘';
+            scoreBox.style.backgroundColor = '#808080'; // Grey
+        } else {
+            scoreStatus.textContent = 'god 🀙';
+            scoreBox.style.backgroundColor = '#778899'; // Light Slate Grey, completing the list
+        }
+
+    </script>
+
+    <script>
+        var gaugeData = [{
+            type: "indicator",
+            value: {{ e_of_x }},
+            delta: { reference: 40 },
+            gauge: { axis: { visible: false, range: [0, 120] } },
+            domain: { row: 0, column: 0 }
+        }];
+        var gaugeLayout = {
+            font: {
+                family: '"Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", serif'
+            },
+            width: 500, 
+            height: 500,
+            template: {
+                data: {
+                indicator: [
+                    {
+                    title: { text: "score" },
+                    mode: "number+delta+gauge",
+                    delta: { reference: 90 }
+                    }
+                ]
+                }
+            }
+        };
+
+        Plotly.newPlot('gaugePlot', gaugeData, gaugeLayout);
+
         var e_of_x = {{ e_of_x|safe }};
         var variance = Math.pow({{ sd|safe }}, 2);
-    
+
         var x = [];
         var y = [];
         for (var i = e_of_x - 4 * Math.sqrt(variance); i < e_of_x + 4 * Math.sqrt(variance); i += 0.1) {
@@ -66,22 +202,33 @@
             x.push(i);
             y.push(yValue);
         }
-    
-        var data = [{
-            x: x, // Use the calculated x values
-            y: y, // Use the calculated y values
+
+        var scatterData = [{
+            x: x, // Use the calculated x values from your script
+            y: y, // Use the calculated y values from your script
             type: 'scatter',
             mode: 'lines',
             name: 'Normal Distribution'
         }];
-    
-        var layout = {
-            xaxis: {
-                title: 'score per game'
+
+        var scatterLayout = {
+            font: {
+                family: '"Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", serif'
             },
+            width: 500, 
+            height: 500,
+            xaxis: {
+                showticklabels: true, // Hides the x-axis tick labels
+                showgrid: false, // Optional: Hides the x-axis grid lines
+            },
+            yaxis: {
+                showticklabels: false, // Hides the y-axis tick labels
+                showgrid: false, // Optional: Hides the y-axis grid lines
+            }
         };
-    
-        // Make sure the element ID here matches the ID of the element in your HTML where you want to display the plot
-        Plotly.newPlot('scatter', data, layout);
+
+        Plotly.newPlot('scatterPlot', scatterData, scatterLayout);
+
     </script>
+
 {% endblock %}

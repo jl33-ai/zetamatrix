@@ -22,10 +22,10 @@ def home(request):
                                      .annotate(max_score=Max('score'))\
                                      .order_by('-max_score')[:10]  # Adjust the number as needed
     
-    daily_challenge_scores = GameSession.objects.filter(start_time__gte=timezone.now(), is_dailychallenge=True)\
+    daily_challenge_scores = GameSession.objects.filter(start_time__gte=date.today(), is_dailychallenge=True)\
                                      .values('user__username')\
                                      .annotate(max_score=Max('score'))\
-                                     .order_by('-max_score')[:5]  # Adjust the number as needed
+                                     .order_by('-max_score')[:5]  
     
     num_total_users = User.objects.count()
 
