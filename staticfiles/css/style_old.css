@@ -1,0 +1,35 @@
+h1, h2 {
+    text-align: center;
+    font-size: 15px; 
+}
+
+body, h1, h2, h3, h4, h5, h6, p {
+    font-family: "Helvetica", "CMU Serif Roman", serif;
+}
+
+a {
+    color: green;
+}
+
+
+.box {
+    background-color: #f8f9fa; /* Bootstrap grey color */
+    border: 1px solid #dee2e6; /* Bootstrap grey border */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px; /* Optional: for rounded corners */
+}
+
+/* If you want to center the boxes */
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Responsive design: If you want the boxes to stack on smaller screens */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+}

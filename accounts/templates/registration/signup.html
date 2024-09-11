@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block extrastyle %}
+<style>
+  .form-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+    max-width: 600px;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="form-container">
+  <fieldset>
+    <legend>Sign up</legend>
+
+    <form method="post" action="{% url 'signup' %}">
+        {% csrf_token %}
+      {{ form.as_p }}
+      <p>Please don't forget your password. If you do, you have to email us.</p>
+      <button type="submit" class="btn btn-default">Sign up</button>
+    </form>
+  </fieldset>
+</div>
+{% endblock %}

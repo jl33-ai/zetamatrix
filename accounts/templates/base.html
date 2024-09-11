@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Zetamatrix{% endblock title %}</title>
+        {#    <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />#}
+        
+        {% block extrastyle %}
+        {% endblock extrastyle %}
+    {% endblock head %}
+</head>
+<body>
+{% block content %}
+{% endblock content %}
+</body>
+</html>
