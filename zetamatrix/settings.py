@@ -36,7 +36,6 @@ DATABASES = {
     "default": dj_database_url.config(default=os.environ.get("DATABASE_URL"), conn_max_age=1800),
 }
 
-STATIC_URL = '/static/'
 
 # Application definition
 
