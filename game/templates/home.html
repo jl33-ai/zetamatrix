@@ -168,11 +168,9 @@
             </div>
             <div class="view-the-zetamatrix">
                 <h3>View the Zetamatrix</h3>
-
-
+                <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
                 <a href="{% url 'see_addition' %}">(+) addition</a><br>
                 <a href="{% url 'see_subtraction' %}">(-) subtraction</a><br>
-                <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
                 <pre>Current global contributors: {{ num_total_users }}</pre>
             </div>
         </div>
