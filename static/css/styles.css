@@ -1,6 +1,13 @@
-.main-container {
+.container {
     width: 60%;
     margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 0 15px;
+    }
 }
 
 .footer {
