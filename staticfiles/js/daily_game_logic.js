@@ -53,6 +53,9 @@ function startGame(gameLength, questions) {
         let lastTime = Date.now();
         let { num1, oper, num2 } = questions[i];
         i+=1;
+        if (i>=300) {
+            endGame();
+        }
 
         questionBox.innerText = `${num1} ${oper} ${num2}`;
 

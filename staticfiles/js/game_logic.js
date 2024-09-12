@@ -19,10 +19,6 @@ function generateQuestion() {
     return [num1, oper, num2];
 }
 
-function getNextDailyQuestion() {
-
-}
-
 function sendData(score, gameLength, questionsSolved, is_dailychallenge=false) {
     /*
     console.log(score)
@@ -54,6 +50,10 @@ function startGame(gameLength) {
     let solvedBox = document.getElementById('score');
     let score = 0;
     let questionsSolved = [];
+    let slowest = [0, '', 0, 0];
+    let slowest_time = 0;
+    let fastest = [0, '', 0, 0];
+    let fastest_time = 99999;
     
     // Hide the results panel at the start of every new game
     document.getElementById('gameResults').style.display='none';
@@ -71,7 +71,11 @@ function startGame(gameLength) {
     function endGame() {
         clearInterval(timerInterval); // Stop the timer
         sendData(score, gameLength, questionsSolved);
+        console.log(fastest[0], fastest[1], fastest[2], fastest[3])
         document.getElementById('finalScore').innerText = `Your score is: ${score}`; 
+        document.getElementById('fastestQuestionBox').innerText = `☻ fastest: ${fastest_time}s  |  ${fastest[0]} ${fastest[1]} ${fastest[2]} = ${fastest[3]}`; 
+        document.getElementById('slowestQuestionBox').innerText = `☹︎ slowest: ${slowest_time}s  |  ${slowest[0]} ${slowest[1]} ${slowest[2]} = ${slowest[3]}`; 
+        document.getElementById('slowestQuestionBox').innerText = `test`;
         document.getElementById('gameResults').style.display = 'block';
         return;
     }
@@ -94,8 +98,16 @@ function startGame(gameLength) {
                 return;
             }
 
-            if (userAnswer === correctAnswer) {
+            if (!isNaN(userAnswer) && userAnswer === correctAnswer) {
                 let timeTaken = Date.now() - lastTime; 
+                if (timeTaken < fastest_time) {
+                    fastest_time = timeTaken;
+                    fastest = [num1, oper, num2, correctAnswer];
+                }
+                if (timeTaken > slowest_time) {
+                    slowest_time = timeTaken;
+                    slowest = [num1, oper, num2, correctAnswer];
+                }
                 // need number of key strokes entered minus legth of answer. 
                 score = score + 1;
                 solvedBox.innerText = `Score: ${score}`;

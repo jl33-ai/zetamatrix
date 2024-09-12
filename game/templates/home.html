@@ -1,12 +1,11 @@
-<!--CLEANER-->
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Home - Zetamatrix{% endblock title %}
 
 {% block extrastyle %}
     <style>
         .score-table {
-            width: 50%;
+            width: 100%;
             border-collapse: collapse;
         }
 
@@ -48,78 +47,62 @@
         .view-the-zetamatrix a {
             display: block;
         }
-
-        .footer {
-            padding: 3px 6px;
-            width: 50%;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .footer .btn-link {
-            background: none;
-            border: none;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
     </style>
 {% endblock extrastyle %}
 
 {% block content %}
-    <div>
-        <h1>Zetamatrix</h1>
+    <h1>Zetamatrix</h1>
 
-        {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}, to <strong>ranked Zetamac.</strong></p>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}, to <strong>ranked Zetamac.</strong></p>
 
-            <form action="{% url 'start_game' %}" method="post">
+        <form action="{% url 'start_game' %}" method="post">
+            {% csrf_token %}
+            <!--<select name="game_length">
+                <option value="120">120 seconds</option>
+                <option value="5">5 seconds (testing)</option>
+            </select>-->
+            <button type="submit" class="btn btn-default">start game</button>
+        </form>
+
+    {% else %}
+        <!-- Display login/sign-up fields for non-authenticated users -->
+        <h3>Login</h3>
+        <p style="display: inline;">You must login to play, or</p> <a href="{% url 'signup' %}">sign up here</a>
+        <div class="view-the-zetamatrix">
+            <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
-                <!--<select name="game_length">
-                    <option value="120">120 seconds</option>
-                    <option value="5">5 seconds (testing)</option>
-                </select>-->
-                <button type="submit" class="btn btn-default">start game</button>
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit" class="btn btn-default">Login</button>
             </form>
-
-        {% else %}
-            <!-- Display login/sign-up fields for non-authenticated users -->
-            <h2>Login</h2>
-            <p style="display: inline;">You must login to play, or</p> <a href="{% url 'signup' %}">sign up here</a>
-            <div class="view-the-zetamatrix">
-                <form method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    <input type="text" name="username" placeholder="Username">
-                    <input type="password" name="password" placeholder="Password">
-                    <button type="submit" class="btn btn-default">Login</button>
-                </form>
-            </div>
-        {% endif %}
-
-        <div style="margin-top: 30px;">
-            <h3>daily challenge</h3>
-            <form id="dailyChallengeForm" action="{% url 'start_dailychallenge' %}" method="post">
-                {% csrf_token %}
-                <button type="button" onclick="confirmStart()" class="btn btn-primary btn-ghost">attempt now</button>
-            </form>
-            <p><b>Current top scores: </b></p>
-            {% for score in dc_scores %}
-                <p>{{ score.user__username }} ({{ score.max_score }}), </p>
-            {% empty %}
-                <p>no attempts yet</p>
-            {% endfor %}
         </div>
+    {% endif %}
 
-        <script>
-            function confirmStart() {
-                var result = confirm("You only get one attempt per day. Are you sure you want to start?");
-                if (result) {
-                    document.getElementById("dailyChallengeForm").submit();
-                }
+    <div style="margin-top: 30px;">
+        <h3>daily challenge</h3>
+        <form id="dailyChallengeForm" action="{% url 'start_dailychallenge' %}" method="post">
+            {% csrf_token %}
+            <button type="button" onclick="confirmStart()" class="btn btn-primary btn-ghost">attempt now</button>
+        </form>
+        <h3>Current top scores: </h3>
+        {% for score in dc_scores %}
+            <p>{{ score.user__username }} ({{ score.max_score }}), </p>
+        {% empty %}
+            <p>no attempts yet</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        function confirmStart() {
+            var result = confirm("You only get one attempt per day. Are you sure you want to start?");
+            if (result) {
+                document.getElementById("dailyChallengeForm").submit();
             }
-        </script>
+        }
+    </script>
 
-        <!--
+    <!--
     <h3>Your profile</h3>
     {% if user.is_authenticated %}
         <ul>
@@ -135,55 +118,43 @@
         </form>
     {% endif %}
     -->
-        <div style="margin-top: 30px;">
-            <h3>7-Day Leaderboard (120s)</h3>
-            <table class="score-table">
-                <thead>
+    <div style="margin-top: 30px;">
+        <h3>7-Day Leaderboard (120s)</h3>
+        <table class="score-table">
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for score in top_scores %}
                 <tr>
-                    <th>Rank</th>
-                    <th>Username</th>
-                    <th>Score</th>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ score.user__username }}</td>
+                    <td>{{ score.max_score }}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for score in top_scores %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ score.user__username }}</td>
-                        <td>{{ score.max_score }}</td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="3">No scores to display</td>
-                    </tr>
-                {% endfor %}
+            {% empty %}
+                <tr>
+                    <td colspan="3">No scores to display</td>
+                </tr>
+            {% endfor %}
 
-                </tbody>
-            </table>
+            </tbody>
+        </table>
+    </div>
+    {% load static %}
+    <div class="side-by-side">
+        <div class="image">
+            <img src="{% static 'images/zm-blur.jpg' %}" alt="Zetamatrix heatmap image">
         </div>
-        {% load static %}
-        <div class="side-by-side">
-            <div class="image">
-                <img src="{% static 'images/zm-blur.jpg' %}" alt="Zetamatrix heatmap image">
-            </div>
-            <div class="view-the-zetamatrix">
-                <h3>View the Zetamatrix</h3>
-                <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
-                <a href="{% url 'see_addition' %}">(+) addition</a><br>
-                <a href="{% url 'see_subtraction' %}">(-) subtraction</a><br>
-                <pre>Current global contributors: {{ num_total_users }}</pre>
-            </div>
-        </div>
-
-        <hr>
-        <div class="footer">
-            <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">♕ about</a>
-            <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">⚄ see your stats</a>
-            <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">✎ sign up</a>
-            <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn-link">logout</button>
-            </form>
+        <div class="view-the-zetamatrix">
+            <h3>View the Zetamatrix</h3>
+            <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
+            <a href="{% url 'see_addition' %}">(+) addition</a><br>
+            <a href="{% url 'see_subtraction' %}">(-) subtraction</a><br>
+            <pre>Current global contributors: {{ num_total_users }}</pre>
         </div>
     </div>
 

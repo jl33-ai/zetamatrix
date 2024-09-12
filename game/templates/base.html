@@ -3,18 +3,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Zetamatrix{% endblock title %}</title>
-        {#    <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />#}
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-        {% block extrastyle %}
-        {% endblock extrastyle %}
-    {% endblock head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Zetamatrix{% endblock title %}</title>
+    <style>
+        .main-container {
+            width: 60%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .footer {
+            padding: 3px 6px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .footer .btn-link {
+            background: none;
+            border: none;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+    {% block extrastyle %}{% endblock extrastyle %}
 </head>
+
 <body>
-    {% block content %}
-    {% endblock %}
+<div class="main-container">
+    {% block content %}{% endblock %}
+    <hr>
+    <div class="footer">
+        <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">♕ about</a>
+        <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">⚄ see your stats</a>
+        <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">✎ sign up</a>
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-link">logout</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
