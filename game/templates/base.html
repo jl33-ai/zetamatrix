@@ -1,50 +1,39 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block description %}Zetamatrix - Competitive fast math{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}zetamatrix, game, online game, mathematics{% endblock %}">
+    <meta name="author" content="Zetamatrix">
     <title>{% block title %}Zetamatrix{% endblock title %}</title>
-    <style>
-        .main-container {
-            width: 60%;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .footer {
-            padding: 3px 6px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-        }
-
-        .footer .btn-link {
-            background: none;
-            border: none;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {#    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">#}
+    {#    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">#}
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
-
 <body>
 <div class="main-container">
-    {% block content %}{% endblock %}
-    <hr>
-    <div class="footer">
-        <a href="{% url 'home' %}" class="btn btn-default btn-ghost">★ home</a>
-        <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">♕ about</a>
-        <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">⚄ see your stats</a>
-        <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">✎ sign up</a>
-        <form action="{% url 'logout' %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit">logout</button>
-        </form>
-    </div>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <nav class="footer">
+            <a href="{% url 'home' %}" class="btn btn-default btn-ghost">★ home</a>
+            <a href="{% url 'about_page' %}" class="btn btn-default btn-ghost">♕ about</a>
+            <a href="{% url 'profile' %}" class="btn btn-default btn-ghost">⚄ see your stats</a>
+            <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">✎ sign up</a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-link">logout</button>
+            </form>
+        </nav>
+    </footer>
 </div>
+<script src="{% static 'js/main.js' %}" defer></script>
+{% block extrascripts %}{% endblock extrascripts %}
 </body>
 </html>
