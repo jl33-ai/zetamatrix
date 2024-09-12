@@ -3,28 +3,20 @@
 {% block title %}Home - Zetamatrix{% endblock %}
 
 {% block extrastyle %}
-<style>
-    .error-heading {
-        color: red;
-    }
-    .centered-container {
-        width: 50%;
-        margin: 0 auto;
-        text-align: left;
-    }
-    .home-link {
-        text-align: right;
-        margin: 0 20%
-    }
-</style>
+    <style>
+        .home-link {
+            text-align: right;
+            margin: 2rem 20%
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<div class="centered-container">
-    <h1 class="error-heading">Sorry.</h1>
-    <p>The daily <strong>zetamac</strong> could not load because:</p>
-    <i>{{ reason }}</i>
-    <br><br>
-    <div class="home-link"><a href="/game/">Go back home</a></div>
-</div>
+    <div class="centered-container">
+        <h3>Sorry.</h3>
+        <p>The daily <strong>Zetamac</strong> could not be accessed</p>
+        <i>{{ reason }}</i>
+        <br><br>
+        <div class="home-link"><a href="/game/">Go back home</a></div>
+    </div>
 {% endblock %}

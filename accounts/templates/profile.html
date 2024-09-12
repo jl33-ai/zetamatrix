@@ -9,13 +9,18 @@
             width: 250px;
             margin: auto;
             padding: 2.5px;
-            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-stats-table {
+            border-collapse: separate;
+            border-spacing: 10px 0;
         }
     </style>
 {% endblock extrastyle %}
 
 {% block content %}
-    <h3>profile statistics:</h3>
+    <h3>Your profile</h3>
     <br>
 
     <div id="scoreBox">
@@ -24,7 +29,7 @@
 
     <br>
 
-    <table class="narrow-table">
+    <table class="player-stats-table">
         <tr>
             <th>Games Played</th>
             <th>Questions Completed</th>
@@ -43,9 +48,7 @@
     <br>
 
 
-    <div align="center">
-        <a href="{% url 'home' %}">Go home</a>
-    </div>
+    <a href="{% url 'home' %}">Go home</a>
 
     <hr>
 

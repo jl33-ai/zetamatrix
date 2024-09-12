@@ -15,6 +15,14 @@ from datetime import date
 
 MAGIC_NUMBER = 3182
 
+"""
+Ways to speed up the site:
+- Add indexes with db_index=True in model fields
+- use GameSession.objects.select_related
+- caching
+- use raw SQL with cursor()
+"""
+
 
 def home(request):
     # beautiful caching
