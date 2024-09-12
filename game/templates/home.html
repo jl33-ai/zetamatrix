@@ -47,6 +47,13 @@
         .view-the-zetamatrix a {
             display: block;
         }
+
+        .daily-challenge {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
     </style>
 {% endblock extrastyle %}
 
@@ -79,18 +86,22 @@
         </div>
     {% endif %}
 
-    <div style="margin-top: 30px;">
-        <h3>daily challenge</h3>
-        <form id="dailyChallengeForm" action="{% url 'start_dailychallenge' %}" method="post">
-            {% csrf_token %}
-            <button type="button" onclick="confirmStart()" class="btn btn-primary btn-ghost">attempt now</button>
-        </form>
-        <h3>Current top scores: </h3>
-        {% for score in dc_scores %}
-            <p>{{ score.user__username }} ({{ score.max_score }}), </p>
-        {% empty %}
-            <p>no attempts yet</p>
-        {% endfor %}
+    <div class="daily-challenge" style="margin-top: 30px;">
+        <div class="left">
+            <h3>Daily challenge</h3>
+            <form id="dailyChallengeForm" action="{% url 'start_dailychallenge' %}" method="post">
+                {% csrf_token %}
+                <button type="button" onclick="confirmStart()" class="btn btn-primary btn-ghost">attempt now</button>
+            </form>
+        </div>
+        <div class="right">
+            <h3>Current top scores: </h3>
+            {% for score in dc_scores %}
+                <p>{{ score.user__username }} ({{ score.max_score }}), </p>
+            {% empty %}
+                <p>no attempts yet</p>
+            {% endfor %}
+        </div>
     </div>
 
     <script>
@@ -119,7 +130,7 @@
     {% endif %}
     -->
     <div style="margin-top: 30px;">
-        <h3>7-Day Leaderboard (120s)</h3>
+        <h3>Global Leaderboard (1 year)</h3>
         <table class="score-table">
             <thead>
             <tr>

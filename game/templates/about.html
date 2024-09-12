@@ -3,49 +3,95 @@
 {% block title %}Tips, Tricks and About{% endblock title %}
 
 {% block extrastyle %}
-<style>
-    .content-container {
-        width: 60%;
-        margin: auto;
-        padding: 20px;
-    }
-    #scoreTiers ul {
-        list-style-type: none;
-        padding: 0;
-        width: 35%;
-        margin: auto;
-    }
+    <style>
+        #scoreTiers ul {
+            list-style-type: none;
+            padding: 0;
+            width: 35%;
+            margin: auto;
+        }
 
-    #scoreTiers li {
-        padding: 5px;
-        color: #FFF;
-    }
+        #scoreTiers li {
+            padding: 5px;
+            color: #FFF;
+        }
 
-    .red { background-color: #FF0000; }
-    .orange { background-color: #FF7F00; color: #000; /* Text color changed for better readability */ }
-    .yellow { background-color: #FFFF00; color: #000; }
-    .green { background-color: #00FF00; color: #000; }
-    .blue { background-color: #0000FF; }
-    .indigo { background-color: #4B0082; }
-    .violet { background-color: #9400D3; }
-    .lightgrey { background-color: #D3D3D3; color: #000; }
-    .darkgrey { background-color: #A9A9A9; }
-    .grey { background-color: #808080; }
-    .slategrey { background-color: #778899; }
-</style>
+        .red {
+            background-color: #FF0000;
+        }
+
+        .orange {
+            background-color: #FF7F00;
+            color: #000; /* Text color changed for better readability */
+        }
+
+        .yellow {
+            background-color: #FFFF00;
+            color: #000;
+        }
+
+        .green {
+            background-color: #00FF00;
+            color: #000;
+        }
+
+        .blue {
+            background-color: #0000FF;
+        }
+
+        .indigo {
+            background-color: #4B0082;
+        }
+
+        .violet {
+            background-color: #9400D3;
+        }
+
+        .lightgrey {
+            background-color: #D3D3D3;
+            color: #000;
+        }
+
+        .darkgrey {
+            background-color: #A9A9A9;
+        }
+
+        .grey {
+            background-color: #808080;
+        }
+
+        .slategrey {
+            background-color: #778899;
+        }
+    </style>
 {% endblock extrastyle %}
 
 
 {% block content %}
-<div class="content-container">
-    <br>
-    <header><h2 id="Timeline">tips & tricks</h2></header>
+    <div>
+        <h3>About Zetamatrix</h3>
+        <p>An online competitive math platform inspired by the original <a href="https://arithmetic.zetamac.com">zetamac</a>
+            with the secret ulterior motive of being a <strong>large scale</strong> data collection initiative. <br><br>By
+            collecting high frequency, high volume data on the way people solve mental arithmetic, we aim to
+            <em>fully</em> understand the way humans solve the most fundamental type of math.</p>
+
+        <p>Zetamatrix official launch video:</p>
+
+
+        <h3>Issues</h3>
+        <p>Please submit any found issues to this form:</p>
+    </div>
+
+    <hr>
+
+    <header><h3 id="Timeline">tips & tricks</h3></header>
     <div class="terminal-timeline">
         <div class="terminal-card">
             <header>(*) multiplication</header>
             <div>
                 multiplying by 5 = multiplying by 10 / 2
-                <pre>24 * 5 = (24 * 10) / 2 = 240 / 2 = 120</pre><br>
+                <pre>24 * 5 = (24 * 10) / 2 = 240 / 2 = 120</pre>
+                <br>
                 distribute! turn it into an easier question...
                 <pre>65 * 14 = 130 * 7</pre>
             </div>
@@ -53,20 +99,21 @@
         <div class="terminal-card">
             <header>(/) division</header>
             <div>
-                division by 11: the first and final digit dictate the first and final digit of the quotient (most of the time)
+                division by 11: the first and final digit dictate the first and final digit of the quotient (most of the
+                time)
                 <pre>572 / 11 = 52</pre>
             </div>
         </div>
         <div class="terminal-card">
             <header>(+) addition</header>
             <div>
-                Nothing to say here... just add them together. 
+                Nothing to say here... just add them together.
             </div>
         </div>
         <div class="terminal-card">
             <header>(-) subtraction</header>
             <div>
-                breaking apart numbers 
+                breaking apart numbers
                 <pre>91 - 46 = (91 - 40) - 6</pre>
 
             </div>
@@ -75,24 +122,6 @@
 
     <hr>
 
-    <div style="margin-left: 20px;">
-        <h2>About Zetamatrix</h2>
-        <p>It is an online competitive math platform inspired by the original <a href="https://arithmetic.zetamac.com">zetamac</a> with the secret ulterior motive of being a <strong>large scale</strong> data collection initiative. <br><br>By collecting high frequency, high volume data on the way people solve mental arithmetic, we aim to <em>fully</em> understand the way humans solve the most fundamental type of math.</p>
-    
-        <p>Zetamatrix official launch video:</p>
-        <!-- Embed or link to the launch video here -->
-
-    
-        <h3>Issues</h3>
-        <p>Please submit any found issues to this form:</p>
-        <!-- Link to the form or embed form here -->
-    
-        <p><a href="/game/">Home</a></p>
-    </div>    
-
-    <hr>
-
-    
     <div id="scoreTiers">
         <h2>tiers</h2>
         <ul>
@@ -109,6 +138,4 @@
             <li class="slategrey">god 🀙</li>
         </ul>
     </div>
-    
-</div>
 {% endblock content %}

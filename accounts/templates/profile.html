@@ -5,75 +5,54 @@
 {% block extrastyle %}
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
-        .score-table {
-            width: 50%;
-            margin: 0 auto;
-        }
-
-        .view-the-zetamatrix {
-            width: 30%;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .content-container {
-            width: 60%;
+        #scoreBox {
+            width: 250px;
             margin: auto;
-            padding: 20px;
-
-            #scoreBox {
-                width: 250px;
-                margin: auto;
-                padding: 2.5px;
-                box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
-            }
-
+            padding: 2.5px;
+            box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+        }
     </style>
 {% endblock extrastyle %}
 
 {% block content %}
-    <div class="content-container">
-        <br><br>
-        <h3>profile statistics:</h3>
-        <br>
+    <h3>profile statistics:</h3>
+    <br>
 
-        <div id="scoreBox">
-            <strong><span id="scoreStatus">unknown</span></strong>
-        </div>
-
-        <br>
-
-        <table class="narrow-table">
-            <tr>
-                <th>Games Played</th>
-                <th>Questions Completed</th>
-
-                <th>E(x)</th>
-                <th>sd σ</th>
-            </tr>
-            <tr>
-                <td>{{ games_played }}</td>
-                <td>{{ questions_completed }}</td>
-
-                <td>{{ e_of_x }}</td>
-                <td>{{ sd }}</td>
-            </tr>
-        </table>
-        <br>
-
-
-        <div align="center">
-            <a href="{% url 'home' %}">Go home</a>
-        </div>
-
-        <hr>
-
-        <div id="timeProgress"></div>
-        <div id="gaugePlot" style="width: 50%; float: left;"></div>
-        <div id="scatterPlot" style="width: 50%; float: left;"></div>
+    <div id="scoreBox">
+        <strong><span id="scoreStatus">unknown</span></strong>
     </div>
+
+    <br>
+
+    <table class="narrow-table">
+        <tr>
+            <th>Games Played</th>
+            <th>Questions Completed</th>
+
+            <th>E(x)</th>
+            <th>sd σ</th>
+        </tr>
+        <tr>
+            <td>{{ games_played }}</td>
+            <td>{{ questions_completed }}</td>
+
+            <td>{{ e_of_x }}</td>
+            <td>{{ sd }}</td>
+        </tr>
+    </table>
+    <br>
+
+
+    <div align="center">
+        <a href="{% url 'home' %}">Go home</a>
+    </div>
+
+    <hr>
+
+    <div id="timeProgress"></div>
+    <div id="gaugePlot" style="width: 50%; float: left;"></div>
+    <div id="scatterPlot" style="width: 50%; float: left;"></div>
     <script>
-        console.log({{ y_progress_data|safe }});
         var trace1 = {
             type: "scatter",
             mode: "lines",
