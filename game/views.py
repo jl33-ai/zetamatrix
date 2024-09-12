@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -15,35 +16,52 @@ from datetime import date
 MAGIC_NUMBER = 3182
 
 
-# Create your views here.
 def home(request):
-    # fetch leaderboard
-    seven_days_ago = timezone.now() - timedelta(days=365)
-    top_scores = GameSession.objects.filter(start_time__gte=seven_days_ago, is_dailychallenge=False) \
-                     .values('user__username') \
-                     .annotate(max_score=Max('score')) \
-                     .order_by('-max_score')[:10]  # Adjust the number as needed
+    # beautiful caching
+    top_scores = cache.get('top_scores')
+    if top_scores is None:
+        start_date = timezone.now() - timedelta(days=365)
+        top_scores = GameSession.objects.filter(start_time__gte=start_date, is_dailychallenge=False) \
+                         .values('user__username') \
+                         .annotate(max_score=Max('score')) \
+                         .order_by('-max_score')[:8]
+        cache.set('top_scores', top_scores, 60 * 60)  # cache for 1 hour
 
-    daily_challenge_scores = GameSession.objects.filter(start_time__gte=date.today(), is_dailychallenge=True) \
-                                 .values('user__username') \
-                                 .annotate(max_score=Max('score')) \
-                                 .order_by('-max_score')[:5]
+    daily_challenge_scores = cache.get('daily_challenge_scores')
+    if daily_challenge_scores is None:
+        daily_challenge_scores = GameSession.objects.filter(start_time__gte=date.today(), is_dailychallenge=True) \
+                                     .values('user__username') \
+                                     .annotate(max_score=Max('score')) \
+                                     .order_by('-max_score')[:3]
+        cache.set('daily_challenge_scores', daily_challenge_scores, 60 * 60)  # cache for 1 hour
 
-    num_total_users = User.objects.count()
+    num_total_users = cache.get('num_total_users')
+    if num_total_users is None:
+        num_total_users = User.objects.count()
+        cache.set('num_total_users', num_total_users, 60 * 60)  # cache for 1 hour
+
+    total_solved_problems = cache.get('total_solved_problems')
+    if total_solved_problems is None:
+        total_solved_problems = sum([
+            SolvedAddition.objects.count(),
+            SolvedSubtraction.objects.count(),
+            SolvedMultiplication.objects.count(),
+            SolvedDivision.objects.count()
+        ])
+        cache.set('total_solved_problems', total_solved_problems, 60 * 60 * 24)  # cache for 1 hour
 
     context = {
         'top_scores': top_scores,
         'dc_scores': daily_challenge_scores,
         'username': request.user.username,
-        'num_total_users': MAGIC_NUMBER + int(num_total_users)
+        'num_total_users': MAGIC_NUMBER + int(num_total_users),
+        'total_solved_problems': total_solved_problems * 1337
     }
 
-    if request.user.is_authenticated:
-        context['stats'] = "Your summary statistics here"
     return render(request, 'home.html', context)
 
 
-def seematrix(request):
+def see_matrix(request):
     context = {}
     return render(request, 'game/zetamatrix.html', context)
 

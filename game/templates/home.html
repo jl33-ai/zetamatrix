@@ -54,6 +54,20 @@
             gap: 20px;
             align-items: start;
         }
+        
+        .inline-stat {
+            margin: 5px 0;
+        }
+        
+        .inline-stat span {
+            display: inline-block;
+        }
+        
+        .stat-value {
+            font-family: monospace;
+            font-weight: bold;
+            margin-left: 5px;
+        }
     </style>
 {% endblock extrastyle %}
 
@@ -165,7 +179,14 @@
             <a href="{% url 'see_multiplication' %}">(*) multiplication</a><br>
             <a href="{% url 'see_addition' %}">(+) addition</a><br>
             <a href="{% url 'see_subtraction' %}">(-) subtraction</a><br>
-            <pre>Current global contributors: {{ num_total_users }}</pre>
+            <p class="inline-stat">
+                <span>Current global contributors:</span>
+                <span class="stat-value">{{ num_total_users }}</span>
+            </p>
+            <p class="inline-stat">
+                <span>Total problems solved:</span>
+                <span class="stat-value">{{ total_solved_problems }}</span>
+            </p>
         </div>
     </div>
 

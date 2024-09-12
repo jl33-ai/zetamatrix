@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 {% block extrastyle %}
-<style>
-  .form-container {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
-    max-width: 600px;
-}
+    <style>
+        .form-container {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 75vh;
+            padding: 0 20px;
+        }
 
-</style>
+    </style>
 {% endblock %}
 {% block content %}
-<div class="form-container">
-    <fieldset>
-        <legend>Log in</legend>
-        <form method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="password" placeholder="Password">
-            <button type="submit" class="btn btn-default">Login</button>
-        </form>
-        <a href="{% url 'signup' %}">Sign Up</a>
-    </fieldset>
-</div>
+    <div class="form-container">
+        <fieldset>
+            <legend>Log in</legend>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit" class="btn btn-default">Login</button>
+            </form>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </fieldset>
+    </div>
 {% endblock %}

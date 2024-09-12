@@ -3,62 +3,57 @@
 {% block title %}Zetamatrix Heatmap{% endblock title %}
 
 {% block extrastyle %}
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<style>
-    .titleinfo {
-        width: 65%; /* Adjust the width as needed */
-        margin: 0 auto; /* This centers the div */
-        text-align: left; /* Ensures content inside the div is left-aligned */
-    }
-    .heatmap-container { 
-        display: flex;
-        justify-content: center;
-    }
-</style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .heatmap-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 {% endblock extrastyle %}
 
 {% block content %}
-<div class="titleinfo">
-    <br>
-    <h1>Subtraction Zetamatrix</h1>
-    <p>☞ This is the result of {{ num_contributions }} answered questions</p>
-    <p>☞ Please note that the values are the log_e(·) of the real values</p>
-    <p class="home-link"><a href="/game/">Go home</a></p>
-</div>
-<div class="heatmap-container">
-    <div id="heatmap"></div>
-</div>
+    <div class="titleinfo">
+        <br>
+        <h1>Subtraction Zetamatrix</h1>
+        <p>☞ This is the result of {{ num_contributions }} answered questions</p>
+        <p>☞ Please note that the values are the log_e(·) of the real values</p>
+        <p class="home-link"><a href="/game/">Go home</a></p>
+    </div>
+    <div class="heatmap-container">
+        <div id="heatmap"></div>
+    </div>
 
-<script type="text/javascript">
-    var data = [
-        {
-            z: {{ heatmap_data|safe }},
-            type: 'heatmap',
-            colorscale: 'Viridis',  // Change the color scale
-            hoverongaps: false, 
-        }
-    ];
+    <script type="text/javascript">
+        var data = [
+            {
+                z: {{ heatmap_data|safe }},
+                type: 'heatmap',
+                colorscale: 'Viridis',  // Change the color scale
+                hoverongaps: false,
+            }
+        ];
 
-    var layout = {
-        font: {
-            family: '"Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", serif'
-        },
-        autosize: false,  // Disable autosize to use custom width and height
-        width: 1000,       // Set width
-        height: 1000,      // Set height to make the plot square
-        xaxis: {
-            // Your x-axis configuration...
-            title: 'Num 1',  // X-axis label
-            dtick: 1,         // Interval between ticks
-            scaleanchor: 'y',  // Ensures that scaling of x-axis is matched to y-axis
-            scaleratio: 1,     // Ensures a 1:1 aspect ratio
-        },
-        yaxis: {
-            title: 'Num 2',  // Y-axis label
-            dtick: 1         // Interval between ticks
-        }
-    };
+        var layout = {
+            font: {
+                family: '"Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", serif'
+            },
+            autosize: false,  // Disable autosize to use custom width and height
+            width: 1000,       // Set width
+            height: 1000,      // Set height to make the plot square
+            xaxis: {
+                // Your x-axis configuration...
+                title: 'Num 1',  // X-axis label
+                dtick: 1,         // Interval between ticks
+                scaleanchor: 'y',  // Ensures that scaling of x-axis is matched to y-axis
+                scaleratio: 1,     // Ensures a 1:1 aspect ratio
+            },
+            yaxis: {
+                title: 'Num 2',  // Y-axis label
+                dtick: 1         // Interval between ticks
+            }
+        };
 
-    Plotly.newPlot('heatmap', data, layout);
-</script>
+        Plotly.newPlot('heatmap', data, layout);
+    </script>
 {% endblock content %}

@@ -42,7 +42,7 @@
         <a href="{% url 'signup' %}" class="btn btn-default btn-ghost">✎ sign up</a>
         <form action="{% url 'logout' %}" method="post" style="display: inline;">
             {% csrf_token %}
-            <button type="submit" class="btn-link">logout</button>
+            <button type="submit">logout</button>
         </form>
     </div>
 </div>

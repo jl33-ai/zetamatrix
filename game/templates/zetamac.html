@@ -1,5 +1,3 @@
-{% extends "base.html" %}
-{% block title %}Game - Zetamatrix{% endblock title %}
 {% block extrastyle %}
     {% csrf_token %}
     <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
@@ -22,8 +20,14 @@
             top: 10px;
             padding: 10px;
         }
-        #timer { left: 10px; }
-        #score { right: 10px; }
+
+        #timer {
+            left: 10px;
+        }
+
+        #score {
+            right: 10px;
+        }
 
         #question-container {
             display: flex;
@@ -51,10 +55,12 @@
             padding: 10px;
             width: 150px;
         }
+
         #gameResults {
             display: none;
             text-align: center;
         }
+
         button {
             padding: 10px 20px;
             margin: 10px;
@@ -64,25 +70,27 @@
 {% endblock extrastyle %}
 
 {% block content %}
-<div id="timer">Seconds left: 0</div>
-<div id="score">Score: 0</div>
-<div id="question-container">
-    <div id="question"></div><p>=</p><input type="text" id="answer" autofocus>
-</div>
+    <div id="timer">Seconds left: 0</div>
+    <div id="score">Score: 0</div>
+    <div id="question-container">
+        <div id="question"></div>
+        <p>=</p><input type="text" id="answer" autofocus>
+    </div>
 
-<div id="gameResults" style="display:none;">
-    <br>
-    <h3>Game Over!</h3>
-    <h4 id="finalScore"></h4>
-    <h4 id="slowestQuestionBox"></h4>
-    <h4 id="fastestQuestionBox"></h4>
-    <a href="javascript:startGame(gameLength);">Play Again</a><p>   </p><a href="/game/">Home</a>
-</div>
+    <div id="gameResults" style="display:none;">
+        <br>
+        <h3>Game Over!</h3>
+        <h4 id="finalScore"></h4>
+        <h4 id="slowestQuestionBox"></h4>
+        <h4 id="fastestQuestionBox"></h4>
+        <a href="javascript:startGame(gameLength);">Play Again</a>
+        <p></p><a href="/game/">Home</a>
+    </div>
 
-<script>
-    const gameLength = {{ game_length }};
-    window.onload = function() {
-        startGame(gameLength);
-    };
-</script>
+    <script>
+        const gameLength = {{ game_length }};
+        window.onload = function () {
+            startGame(gameLength);
+        };
+    </script>
 {% endblock content %}
