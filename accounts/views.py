@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -16,6 +17,7 @@ class SignUpView(generic.CreateView):
 class LogoutView(generic.CreateView):
     template_name = 'registration/logout.html'
 
+@login_required
 def profile(request):
     player_stats, created = PlayerStats.objects.get_or_create(
         user=request.user,
