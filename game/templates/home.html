@@ -68,12 +68,17 @@
             font-weight: bold;
             margin-left: 5px;
         }
+
+        #auth-section {
+            background-color: #d0d0d0;
+        }
     </style>
 {% endblock extrastyle %}
 
 {% block content %}
     <h1>Zetamatrix</h1>
 
+    <section id="auth-section">
     {% if user.is_authenticated %}
         <p>Welcome, {{ user.username }}, to <strong>ranked Zetamac.</strong></p>
 
@@ -85,7 +90,6 @@
             </select>-->
             <button type="submit" class="btn btn-default">start game</button>
         </form>
-
     {% else %}
         <!-- Display login/sign-up fields for non-authenticated users -->
         <h3>Login</h3>
@@ -99,6 +103,7 @@
             </form>
         </div>
     {% endif %}
+    </section>
 
     <div class="daily-challenge" style="margin-top: 30px;">
         <div class="left">
